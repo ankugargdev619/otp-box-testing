@@ -20,6 +20,7 @@ export const OtpCells = ({cellCount,isDisabled,setIsDisabled}) => {
         <div className="mt-6 flex justify-center gap-4">
             {Array.from({length : cellCount}).map((_,i) => (  
                 <input
+                    inputMode="numeric"
                     key={i}
                     ref={(element)=> inputRef.current[i] = element}
                     type={isOtpVisible?"text" : "password"}
