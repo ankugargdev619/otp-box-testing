@@ -41,8 +41,10 @@ export const OtpCells = ({cellCount,isDisabled,setIsDisabled}) => {
                         const pattern = /^[0-9]$/;
                         const allowed = ["Backspace", "ArrowRight","ArrowLeft","Delete"];
 
-                        if(!(pattern.test(e.key) || allowed.includes(e.key) || inputRef.current[i].value != "") ){
-                            e.preventDefault();
+                        if(!allowed.includes(e.key)){
+                            if(!pattern.test(e.key) || inputRef.current[i].value != "" ){
+                                e.preventDefault();
+                            }
                         }
 
                         if(e.key == "Backspace" ){
