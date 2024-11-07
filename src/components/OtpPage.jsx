@@ -1,6 +1,8 @@
+import { useState } from "react"
 import { OtpCells } from "./OtpCells"
 
 export const OtpPage = () => {
+    const [isDisabled,setIsDisabled] = useState(true);
     return <div className="flex flex-col items-center justify-center text-slate-50 text-center h-screen">
         <div className="text-3xl">
             <span className="text-[#3EDDCE]">Webinar</span>.gg
@@ -10,9 +12,9 @@ export const OtpPage = () => {
             <p className="text-sm text-slate-400">Please enter the verification code sent to your email id test@gmail.com</p>
         </div>
         
-        <OtpCells cellCount="6" />
+        <OtpCells setIsDisabled={setIsDisabled} isDisabled={isDisabled} cellCount="6" />
 
-        <button className="mt-10 w-64 h-10 bg-slate-500 rounded-lg">Verify</button>
+        <button disabled={isDisabled} className={`mt-10 w-64 h-10 ${isDisabled ? "bg-slate-500" : "bg-[#3EDDCE] text-black"} rounded-lg`}>Verify</button>
         <div className="mt-4">Can't find the email? Click <a className="underline" href="#">here</a> to resend.</div>
     </div>
 }

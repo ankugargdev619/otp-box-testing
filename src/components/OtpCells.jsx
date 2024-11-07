@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import "./components.css";
 
-export const OtpCells = ({cellCount}) => {
+export const OtpCells = ({cellCount,isDisabled,setIsDisabled}) => {
     const [time, setTime] = useState(120);
     const [isOtpVisible,setOtpVisible] = useState(false);
     const inputRef = useRef({});
@@ -15,8 +14,7 @@ export const OtpCells = ({cellCount}) => {
         return ()=>{
             clearInterval(interval);
         }
-    }
-,[time])
+    },[time]);
 
     return <div>
         <div className="mt-6 flex justify-center gap-4">
@@ -25,21 +23,31 @@ export const OtpCells = ({cellCount}) => {
                     key={i}
                     ref={(element)=> inputRef.current[i] = element}
                     type={isOtpVisible?"text" : "password"}
-                    className="w-10 h-10 rounded-lg bg-slate-500 bg-opacity-50 text-center no-spinner"
+                    className="w-10 h-10 rounded-lg bg-slate-500 bg-opacity-50 text-center"
                     onChange={(e)=>{
                         if(e.target.value != "" && i < cellCount-1) {
                             inputRef.current[i+1].focus();
+                        }
+                        
+                        if(inputRef.current[cellCount-1].value != ""){
+                            setIsDisabled(false);
+                        } else {
+                            setIsDisabled(true);
                         }
                     }}
 
                     onKeyDown={(e)=>{
                         const pattern = /^[0-9]$/;
+                        const allowed = ["Backspace", "ArrowRight","ArrowLeft","Delete"];
+
+                        if(!(pattern.test(e.key) || allowed.includes(e.key)) ){
+                            e.preventDefault();
+                        }
+
                         if(e.key == "Backspace" ){
                             if((e.target.value == "") && i>0){
                                 inputRef.current[i-1].focus();
                             }
-                        } else if(e.target.value != "" || !pattern.test(e.key)){
-                            e.preventDefault();
                         }
                     }}
 
